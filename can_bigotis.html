@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Can Bigotis – Pop Up de Mar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #f5f0e8;
+      --deep: #0d2233;
+      --ocean: #1a5276;
+      --foam: #e8eff5;
+      --accent: #c0874f;
+      --text: #1a1a1a;
+      --muted: #6b7c8d;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(26,82,118,0.1);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--deep);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--ocean); }
+
+    /* ── HERO ── */
+    #inici {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--deep);
+      margin-bottom: 2rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--ocean);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 420px;
+      margin-bottom: 3rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--deep);
+      color: var(--white);
+      padding: 0.9rem 1.8rem;
+      border-radius: 2px;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      width: fit-content;
+    }
+
+    .hero-right {
+      background: var(--ocean);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 380px;
+      height: 380px;
+    }
+
+    .circle-outer {
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotate 20s linear infinite;
+    }
+
+    .circle-inner {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .hero-emoji {
+      font-size: 4rem;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-right-text {
+      color: rgba(255,255,255,0.6);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .wave-deco {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      opacity: 0.08;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 7rem 6rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: var(--deep);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 4rem;
+    }
+
+    /* ── PROVEÏDORS ── */
+    #proveidors {
+      background: var(--deep);
+      color: var(--white);
+    }
+
+    #proveidors .section-label { color: var(--accent); }
+    #proveidors .section-title { color: var(--white); }
+    #proveidors .section-intro { color: rgba(255,255,255,0.55); }
+
+    .proveidors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .proveidor-card {
+      background: var(--deep);
+      padding: 2.5rem;
+      transition: background 0.3s;
+    }
+
+    .proveidor-card:hover { background: var(--ocean); }
+
+    .proveidor-icon {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .proveidor-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .proveidor-desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .proveidor-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.25rem 0.7rem;
+      border-radius: 1px;
+    }
+
+    /* ── REQUISITS LEGALS ── */
+    #requisits {
+      background: var(--foam);
+    }
+
+    .requisits-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .requisit-item {
+      padding: 2rem 0;
+      border-top: 1px solid rgba(26,82,118,0.15);
+    }
+
+    .requisit-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .requisit-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .requisit-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .status-ok { color: #2e7d32; }
+    .status-pending { color: var(--accent); }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── GESTIÓ ECONÒMICA ── */
+    #gestio {
+      background: var(--sand);
+    }
+
+    .gestio-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .table-wrap {
+      background: var(--white);
+      border: 1px solid rgba(26,82,118,0.1);
+      overflow: hidden;
+    }
+
+    .table-header {
+      background: var(--ocean);
+      color: var(--white);
+      padding: 1rem 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-weight: 500;
+    }
+
+    td {
+      padding: 0.9rem 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .total-row td {
+      font-weight: 600;
+      color: var(--deep);
+      background: rgba(26,82,118,0.04);
+      border-top: 1px solid rgba(26,82,118,0.15);
+    }
+
+    .amount-pos { color: #2e7d32; }
+    .amount-neg { color: #c0392b; }
+
+    .kpi-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .kpi-card {
+      background: var(--white);
+      border: 1px solid rgba(26,82,118,0.1);
+      padding: 1.8rem;
+    }
+
+    .kpi-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--deep);
+      line-height: 1;
+    }
+
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      color: rgba(255,255,255,0.5);
+      padding: 3rem 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--accent); }
+
+    .footer-info {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin: 1.5rem 0 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#inici">Can <span>Bigotis</span></a>
+  <ul class="nav-links">
+    <li><a href="#inici">Inici</a></li>
+    <li><a href="#proveidors">Proveïdors</a></li>
+    <li><a href="#requisits">Requisits Legals</a></li>
+    <li><a href="#gestio">Gestió Econòmica</a></li>
+  </ul>
+</nav>
+
+<!-- HERO / INICI -->
+<section id="inici" style="padding:0;">
+  <div class="hero-left fade-in">
+    <p class="hero-eyebrow">Pop Up · Lloret de Mar</p>
+    <h1 class="hero-title">
+      Paella de<br/>
+      <em>Marisc</em><br/>
+      de Proximitat
+    </h1>
+    <p class="hero-desc">
+      Can Bigotis porta el millor del mar directament a la taula. 
+      Peix i marisc fresc de la Llotja de Blanes, cuinat amb 
+      materials 100% reciclats i servit al cor de Lloret de Mar.
+    </p>
+    <div class="hero-badge">
+      🦐 Producte local · Km 0 · Sostenible
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="circle-outer">
+        <div class="circle-inner">
+          <span class="hero-emoji">🦞</span>
+          <span class="hero-right-text">Can Bigotis</span>
+        </div>
+      </div>
+    </div>
+    <svg class="wave-deco" viewBox="0 0 1440 120" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,64 C360,120 1080,0 1440,64 L1440,120 L0,120 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- PROVEÏDORS -->
+<section id="proveidors">
+  <p class="section-label">D'on venim</p>
+  <h2 class="section-title">Els nostres Proveïdors</h2>
+  <p class="section-intro">
+    Treballem exclusivament amb proveïdors locals i sostenibles de la Costa Brava. 
+    Cada ingredient recorre la mínima distància possible de la mar a la paella.
+  </p>
+
+  <div class="proveidors-grid fade-in">
+    <div class="proveidor-card">
+      <div class="proveidor-icon">🐟</div>
+      <div class="proveidor-name">Llotja de Blanes</div>
+      <div class="proveidor-desc">
+        Peix i marisc fresquíssim subhastat cada matí a la llotja de Blanes. 
+        Gambes, llagostins i pop seleccionats pels nostres mariners de confiança.
+      </div>
+      <span class="proveidor-tag">Marisc · Peix blau</span>
+    </div>
+
+    <div class="proveidor-card">
+      <div class="proveidor-icon">🌾</div>
+      <div class="proveidor-name">Arròs Pals (Baix Empordà)</div>
+      <div class="proveidor-desc">
+        Arròs de Pals, cultivat a les planes del Baix Empordà. 
+        La varietat rodona ideal per absorbir el caldo de marisc i deixar la paella en el seu punt.
+      </div>
+      <span class="proveidor-tag">Arròs · Km 0</span>
+    </div>
+
+    <div class="proveidor-card">
+      <div class="proveidor-icon">🫒</div>
+      <div class="proveidor-name">Oli i Verdures Locals</div>
+      <div class="proveidor-desc">
+        Tomàquet, pebrot i all de pagesos de la comarca de la Selva. 
+        Oli d'oliva verge extra de cooperatives catalanes certificades.
+      </div>
+      <span class="proveidor-tag">Verdura · Oli</span>
+    </div>
+
+    <div class="proveidor-card">
+      <div class="proveidor-icon">♻️</div>
+      <div class="proveidor-name">Material Reciclat</div>
+      <div class="proveidor-desc">
+        Tot l'equipament del pop up — taules, estris i estands — 
+        és fabricat amb material reciclat o recuperat. Cuinem bé i cuidem el planeta.
+      </div>
+      <span class="proveidor-tag">Sostenibilitat</span>
+    </div>
+
+    <div class="proveidor-card">
+      <div class="proveidor-icon">🍋</div>
+      <div class="proveidor-name">Cítrics de la Costa</div>
+      <div class="proveidor-desc">
+        Llimones i taronges fresques de productors de la Costa Daurada. 
+        El toc final que equilibra el sabor del marisc.
+      </div>
+      <span class="proveidor-tag">Fruita · Guarnició</span>
+    </div>
+
+    <div class="proveidor-card">
+      <div class="proveidor-icon">🧂</div>
+      <div class="proveidor-name">Sal de l'Estany de Pals</div>
+      <div class="proveidor-desc">
+        Sal marina artesanal recollida a mà a les salines naturals 
+        de la Costa Brava. Producte únic i de proximitat màxima.
+      </div>
+      <span class="proveidor-tag">Condiment · Artesà</span>
+    </div>
+  </div>
+</section>
+
+<!-- REQUISITS LEGALS -->
+<section id="requisits">
+  <p class="section-label">Compliment normatiu</p>
+  <h2 class="section-title">Requisits Legals</h2>
+  <p class="section-intro">
+    Can Bigotis opera seguint tota la normativa sanitària, municipal i 
+    mediambiental vigent per a activitats de restauració temporal a Catalunya.
+  </p>
+  <div class="divider"></div>
+
+  <div class="requisits-layout fade-in">
+    <div>
+      <div class="requisit-item">
+        <div class="requisit-num">01</div>
+        <div class="requisit-title">Llicència d'Activitat Temporal</div>
+        <div class="requisit-text">
+          Autorització de l'Ajuntament de Lloret de Mar per a la instal·lació 
+          d'un punt de venda i restauració temporal en espai públic o privat, 
+          segons la normativa de l'Ordenança Municipal de Mercats i Pop Ups.
+        </div>
+        <div class="status-badge status-ok"><span class="dot"></span> Tramitada</div>
+      </div>
+
+      <div class="requisit-item">
+        <div class="requisit-num">02</div>
+        <div class="requisit-title">Registre Sanitari (RSIPAC)</div>
+        <div class="requisit-text">
+          Inscripció en el Registre Sanitari d'Indústries i Productes Alimentaris 
+          de Catalunya (RSIPAC), obligatori per a qualsevol activitat de 
+          manipulació i venda d'aliments.
+        </div>
+        <div class="status-badge status-ok"><span class="dot"></span> Registrat</div>
+      </div>
+
+      <div class="requisit-item">
+        <div class="requisit-num">03</div>
+        <div class="requisit-title">Carnet de Manipulador d'Aliments</div>
+        <div class="requisit-text">
+          Tot el personal de Can Bigotis disposa del carnet oficial de 
+          manipulador d'aliments, exigit per la normativa europea de 
+          seguretat alimentària (Reglament CE 852/2004).
+        </div>
+        <div class="status-badge status-ok"><span class="dot"></span> Obtingut</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="requisit-item">
+        <div class="requisit-num">04</div>
+        <div class="requisit-title">Assegurança de Responsabilitat Civil</div>
+        <div class="requisit-text">
+          Pòlissa de responsabilitat civil que cobreix possibles danys a tercers 
+          durant l'activitat del pop up, inclosos incidents durant la manipulació 
+          i servei d'aliments.
+        </div>
+        <div class="status-badge status-ok"><span class="dot"></span> Contractada</div>
+      </div>
+
+      <div class="requisit-item">
+        <div class="requisit-num">05</div>
+        <div class="requisit-title">Alta a Hisenda (IAE / IVA)</div>
+        <div class="requisit-text">
+          Alta en l'Impost d'Activitats Econòmiques (IAE) i obligació de 
+          repercutir l'IVA del 10% en la venda d'aliments preparats, 
+          amb presentació trimestral del model 303.
+        </div>
+        <div class="status-badge status-pending"><span class="dot"></span> En tràmit</div>
+      </div>
+
+      <div class="requisit-item">
+        <div class="requisit-num">06</div>
+        <div class="requisit-title">Pla de Gestió de Residus</div>
+        <div class="requisit-text">
+          Protocol de separació i gestió de residus (orgànics, plàstics, vidre), 
+          obligatori per llei i coherent amb la filosofia sostenible 
+          de Can Bigotis amb materials reciclats.
+        </div>
+        <div class="status-badge status-ok"><span class="dot"></span> Implementat</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GESTIÓ ECONÒMICA -->
+<section id="gestio">
+  <p class="section-label">Números clars</p>
+  <h2 class="section-title">Gestió Econòmica</h2>
+  <p class="section-intro">
+    Una visió transparent dels costos, ingressos i marges del pop up Can Bigotis 
+    per a la temporada d'estiu.
+  </p>
+
+  <div class="gestio-layout fade-in">
+    <div>
+      <div class="table-wrap">
+        <div class="table-header">📊 Compte de Resultats Estimat — Temporada</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Concepte</th>
+              <th>Import (€)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>INGRESSOS</strong></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Venda paella marisc (150 racions/dia × 25€ × 60 dies)</td>
+              <td class="amount-pos">+225.000 €</td>
+            </tr>
+            <tr>
+              <td>Begudes i complements</td>
+              <td class="amount-pos">+18.000 €</td>
+            </tr>
+            <tr>
+              <td><strong>COSTOS</strong></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Matèria primera (marisc, arròs, verdures…)</td>
+              <td class="amount-neg">−72.000 €</td>
+            </tr>
+            <tr>
+              <td>Lloguer espai i instal·lació</td>
+              <td class="amount-neg">−12.000 €</td>
+            </tr>
+            <tr>
+              <td>Personal (cuiners + servei)</td>
+              <td class="amount-neg">−30.000 €</td>
+            </tr>
+            <tr>
+              <td>Llicències i assegurances</td>
+              <td class="amount-neg">−2.500 €</td>
+            </tr>
+            <tr>
+              <td>Marketing i disseny</td>
+              <td class="amount-neg">−1.500 €</td>
+            </tr>
+            <tr>
+              <td>Subministraments (gas, electricitat…)</td>
+              <td class="amount-neg">−4.000 €</td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>BENEFICI NET ESTIMAT</strong></td>
+              <td class="amount-pos"><strong>+121.000 €</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="kpi-stack">
+      <div class="kpi-card">
+        <div class="kpi-label">Preu mitjà per ració</div>
+        <div class="kpi-value">25 €</div>
+        <div class="kpi-sub">Paella individual de marisc km 0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Punt d'equilibri (break-even)</div>
+        <div class="kpi-value">~50 rac.</div>
+        <div class="kpi-sub">Racions mínimes diàries per cobrir costos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Marge brut estimat</div>
+        <div class="kpi-value">68%</div>
+        <div class="kpi-sub">Sobre el preu de venda</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Durada del pop up</div>
+        <div class="kpi-value">60 dies</div>
+        <div class="kpi-sub">Temporada d'estiu · Lloret de Mar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Can <span>Bigotis</span></div>
+    <div style="font-size:0.78rem; margin-top:0.4rem;">Pop Up de Mar · Lloret de Mar</div>
+  </div>
+  <div class="footer-info">
+    📍 Lloret de Mar, Costa Brava<br/>
+    🦞 Marisc fresc de la Llotja de Blanes<br/>
+    ♻️ Materials 100% reciclats
+  </div>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--ocean)' : '';
+    });
+  });
+</script>
+</body>
+</html>
